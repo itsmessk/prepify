@@ -23,7 +23,7 @@ const authFormSchema = (type : FormType) => {
 const AuthForm = ({type} : {type: FormType}) => {
     const router  = useRouter();
     const formSchema = authFormSchema(type);
-    // 1. Define your form.
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -33,10 +33,9 @@ const AuthForm = ({type} : {type: FormType}) => {
         },
     })
 
-    // 2. Define a submit handler.
+
     function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
+
         try{
             if(type === "sign-up"){
                 toast.success("Account created successfully. Please sign in.");
