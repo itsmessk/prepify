@@ -10,7 +10,7 @@ interface FormFieldProps<T extends FieldValues>{
     placeholder?: string;
     type?: "text" | "password" | "email" | "file";
 }
-const FormField = ({ control, name, label, placeholder, type = "text"} : FormFieldProps<T>) => (
+const FormField = <T extends FieldValues> ({ control, name, label, placeholder, type = "text"} : FormFieldProps<T>) => (
     <Controller
         name={name}
         control={control}
@@ -18,12 +18,11 @@ const FormField = ({ control, name, label, placeholder, type = "text"} : FormFie
             <FormItem>
                 <FormLabel className="label">{label}</FormLabel>
                 <FormControl>
-                    <Input className={"input"}
+                    <Input className="input"
                            placeholder={placeholder}
                            type={type}
                            {...field} />
                 </FormControl>
-
                 <FormMessage />
             </FormItem>
         )}
