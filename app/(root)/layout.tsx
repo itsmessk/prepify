@@ -9,6 +9,7 @@ const RootLayout = async ({ children} : { children: ReactNode}) => {
     if(!isUserAuthenticated){
         redirect('/sign-in');
     }
+
     return (
         <div className="root-layout">
             <nav>
