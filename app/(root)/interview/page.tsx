@@ -7,7 +7,10 @@ const Interview = async () => {
 
     return (
         <>
-            <Agent userName={user?.name} userId={user?.id} type="generate" />
+        <h3>
+            Interview Generator
+        </h3>
+            <Agent userName={user?.name!} userId={user?.id} type="generate" />
         </>
     );
 };
