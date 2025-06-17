@@ -6,11 +6,11 @@ import {cookies} from "next/headers";
 const ONE_WEEK = 60 * 60 * 24 * 7;
 
 export const signUp = async (params: SignUpParams) => {
-    const {uid, name, email } = params;
-    try{
+    const {uid, name, email} = params;
+    try {
         const userRecord = await db.collection('users').doc(uid).get();
 
-        if(userRecord.exists){
+        if (userRecord.exists) {
             return {
                 success: false,
                 message: 'User already exists'
@@ -25,9 +25,9 @@ export const signUp = async (params: SignUpParams) => {
             success: true,
             message: 'User created successfully.'
         }
-    } catch(err: any){
-        console.error('Error Creating a User',err);
-        if(err === 'auth/email-already-exists'){
+    } catch (err: any) {
+        console.error('Error Creating a User', err);
+        if (err.code === 'auth/email-already-exists') {
             return {
                 success: false,
                 message: 'Email already exists'
@@ -41,11 +41,11 @@ export const signUp = async (params: SignUpParams) => {
     }
 }
 
-export const signIn = async (params: SignInParams)=>{
+export const signIn = async (params: SignInParams) => {
     const {email, idToken} = params;
-    try{
+    try {
         const userRecord = await auth.getUserByEmail(email);
-        if(!userRecord){
+        if (!userRecord) {
             return {
                 success: false,
                 message: 'User does not exist'
@@ -53,8 +53,8 @@ export const signIn = async (params: SignInParams)=>{
         }
         await setSessionCookie(idToken);
 
-    } catch (err){
-        console.error('Error loggingIn',err);
+    } catch (err) {
+        console.error('Error loggingIn', err);
         return {
             success: false,
             message: 'Error Creating a User',
@@ -62,7 +62,7 @@ export const signIn = async (params: SignInParams)=>{
     }
 }
 
-export async function setSessionCookie(idToken: string){
+export async function setSessionCookie(idToken: string) {
     const cookieStore = await cookies();
 
     const sessionCookie = await auth.createSessionCookie(idToken, {
@@ -82,32 +82,30 @@ export async function getCurrentUser(): Promise<User | null> {
     const cookieStore = await cookies();
     const sessionCookie = cookieStore.get('session')?.value;
 
-    if(!sessionCookie) {
+    if (!sessionCookie) {
         return null;
     }
 
-    try{
+    try {
         const decodedClaims = await auth.verifySessionCookie(sessionCookie, true);
         const userRecord = await db.collection('users').doc(decodedClaims.uid).get();
-        if(!userRecord){
+        if (!userRecord.exists) {
             return null;
         }
 
         return {
             ...userRecord.data(),
-            id: decodedClaims.id,
+            id: decodedClaims.uid,
         } as User;
 
-    }
-    catch(err){
-        console.error('Error loggingIn',err);
+    } catch (err) {
+        console.error('Error loggingIn', err);
         return null;
     }
 }
 
 export async function isAuthenticated() {
-    const user = getCurrentUser();
-
+    const user = await getCurrentUser();
     return !!user;
 }
 
