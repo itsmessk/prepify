@@ -12,7 +12,7 @@ export async function getInterviewsByUserId(userId: string): Promise<Interview[]
         .orderBy('createdAt', 'desc')
         .get();
 
-    if(!interviews) return null;
+    if(interviews.empty) return null;
 
     return interviews.docs.map((doc) => ({
         id: doc.id,
@@ -31,7 +31,7 @@ export async function getLatestInterviews(params: GetLatestInterviewsParams): Pr
         .limit(limit)
         .get();
 
-    if(!interviews) return null;
+    if(interviews.empty) return null;
 
     return interviews.docs.map((doc) => ({
         id: doc.id,
