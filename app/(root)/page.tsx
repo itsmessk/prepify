@@ -11,13 +11,14 @@ const Page = async () => {
     const user = await getCurrentUser();
 
     const [userInterviews, latestInterviews] = await Promise.all([
-        await getInterviewsByUserId(user?.id!),
-        await getLatestInterviews({userId: user?.id!})
+        await getInterviewsByUserId(user?.id),
+        await getLatestInterviews({userId: user?.id,
+        limit : 20})
     ])
 
     const hasPastInterviews = userInterviews?.length > 0;
     const hasLatestInterviews = latestInterviews?.length > 0;
-
+    console.log(latestInterviews);
     return (
         <>
             <section className="card-cta ">
@@ -55,7 +56,7 @@ const Page = async () => {
                     {
                         hasLatestInterviews ? (
                             latestInterviews.map((interview) => (
-                                <InterviewCard {... interview} key={interview.id}/>
+                                <InterviewCard {...interview} key={interview.id}/>
                             ))
                         ) : <p>There are no new Interviews available!</p>
                     }

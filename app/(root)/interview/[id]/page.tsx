@@ -7,9 +7,9 @@ import DisplayTechIcons from "@/components/DisplayTechIcons";
 import Agent from "@/components/Agent";
 import {getCurrentUser} from "@/lib/actions/auth.actions";
 
-const Page = async ({ params}: RouteParams) => {
+const Page = async ({params}: RouteParams) => {
     const { id } = await params;
-    const user = getCurrentUser();
+    const user = await getCurrentUser();
     const interview = await getInterviewById(id);
 
     if(!interview) redirect('/');
