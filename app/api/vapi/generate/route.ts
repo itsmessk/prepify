@@ -36,7 +36,7 @@ export async function POST(request: Request){
             userId: userid,
             level,
             type,
-            companyUrl: await getInterviewCover(companyUrl),
+            coverImage: await getInterviewCover(companyUrl),
             createdAt: new Date().toISOString(),
         }
 

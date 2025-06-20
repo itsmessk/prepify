@@ -56,9 +56,19 @@ export const getTechLogos = async (techArray: string[]) => {
 };
 
 export const getInterviewCover = async (companyUrl: string) => {
-  if(await checkCompanyLogoExist(companyUrl)) {
-    return getCompanyLogo(companyUrl);
-  } else{
+  if(!companyUrl) {
+    const randomIndex = Math.floor(Math.random() * interviewCovers.length);
+    return `/covers${interviewCovers[randomIndex]}`;
+  }
+  try {
+    if (await checkCompanyLogoExist(companyUrl)) {
+      return getCompanyLogo(companyUrl);
+    } else {
+      const randomIndex = Math.floor(Math.random() * interviewCovers.length);
+      return `/covers${interviewCovers[randomIndex]}`;
+    }
+  } catch (err){
+    console.error(err);
     const randomIndex = Math.floor(Math.random() * interviewCovers.length);
     return `/covers${interviewCovers[randomIndex]}`;
   }
