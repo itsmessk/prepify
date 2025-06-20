@@ -1,7 +1,7 @@
 
 import dayjs from "dayjs";
 import Image from "next/image";
-import {getRandomInterviewCover} from "@/lib/utils";
+import {getInterviewCover} from "@/lib/utils";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import DisplayTechIcons from "@/components/DisplayTechIcons";
@@ -9,8 +9,9 @@ import {getFeedbackByInterviewId} from "@/lib/actions/general.actions";
 import {getCurrentUser} from "@/lib/actions/auth.actions";
 
 
-const InterviewCard = async ({ id, userId, role, type, techstack, createdAt} : InterviewCardProps) => {
+const InterviewCard = async ({ id, userId, role, type, techstack, companyUrl, createdAt} : InterviewCardProps) => {
     const currUser = await getCurrentUser();
+    const conpanyUrlHere = await getInterviewCover(companyUrl);
     const feedback = userId && id ? await getFeedbackByInterviewId({
         interviewId: id!,
         userId: currUser?.id,
@@ -28,7 +29,7 @@ const InterviewCard = async ({ id, userId, role, type, techstack, createdAt} : I
                     <p className="badge-text"> {normalizedType}</p>
                 </div>
                 <div>
-                    <Image  src={getRandomInterviewCover()} alt={"Cover Image"} width={90} height={90} className="rounded-full object-fit size-[90px]"/>
+                    <Image  src={conpanyUrlHere} alt={"Cover Image"} width={90} height={90} className="rounded-full object-fit size-[90px]"/>
 
                     <h3 className="mt-5 capitalize">
                         {role} Interview

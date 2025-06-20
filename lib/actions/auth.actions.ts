@@ -111,4 +111,11 @@ export async function isAuthenticated() {
     return !!user;
 }
 
-
+export async function handleLogout(){
+    const cookieStore = await cookies();
+    try{
+        cookieStore.delete("session");
+    } catch (err){
+        console.error("Error logging out", err);
+    }
+}

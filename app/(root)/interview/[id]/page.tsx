@@ -2,7 +2,7 @@ import React from 'react';
 import {getInterviewById} from "@/lib/actions/general.actions";
 import {redirect} from "next/navigation";
 import Image from "next/image";
-import {getRandomInterviewCover} from "@/lib/utils";
+import {getInterviewCover} from "@/lib/utils";
 import DisplayTechIcons from "@/components/DisplayTechIcons";
 import Agent from "@/components/Agent";
 import {getCurrentUser} from "@/lib/actions/auth.actions";
@@ -11,14 +11,14 @@ const Page = async ({params}: RouteParams) => {
     const { id } = await params;
     const user = await getCurrentUser();
     const interview = await getInterviewById(id);
-
+    const conpanyUrlHere = await getInterviewCover(interview?.companyUrl!);
     if(!interview) redirect('/');
     return (
         <>
             <div className={"flex flex-row gap-4 justify-between"}>
                 <div className={"flex flex-row gap-4 items-center max:sm:flex-col"}>
                     <div className={"flex flex-row gap-4 items-center"}>
-                        <Image src={getRandomInterviewCover()} alt={"cover-image"} width={40} height={40} className={"rounded-full object-cover size-[40px]"}/>
+                        <Image src={conpanyUrlHere} alt={"cover-image"} width={40} height={40} className={"rounded-full object-cover size-[40px]"}/>
                         <h3 className={"text-lg"}>
                             {interview.role} Interview
                         </h3>

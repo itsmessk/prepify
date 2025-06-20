@@ -1,6 +1,6 @@
 import {generateText} from "ai";
 import {google} from "@ai-sdk/google";
-import {getRandomInterviewCover} from "@/lib/utils";
+import {getInterviewCover} from "@/lib/utils";
 import {db} from "@/firebase/admin";
 
 export async function GET(){
@@ -8,7 +8,7 @@ export async function GET(){
 }
 
 export async function POST(request: Request){
-    const { type, role, techstack, amount, userid, level } = await request.json();
+    const { type, role, techstack, amount, userid, level, companyUrl } = await request.json();
 
     try{
         const{ text: questions} = await generateText({
@@ -16,6 +16,7 @@ export async function POST(request: Request){
             prompt: `Prepare questions for a job interview.
                     The job role is ${role}.
                     The job experience level is ${level}.
+                    The job role is for the company ${companyUrl}, if the company url is not available make this as a generic job role.
                     The tech stack used in the job is: ${techstack}.
                     The focus between behavioural and technical questions should lean towards: ${type}.
                     The amount of questions required is: ${amount}.
@@ -35,7 +36,7 @@ export async function POST(request: Request){
             userId: userid,
             level,
             type,
-            coverImage: getRandomInterviewCover(),
+            coverImage: getInterviewCover(companyUrl),
             createdAt: new Date().toISOString(),
         }
 
