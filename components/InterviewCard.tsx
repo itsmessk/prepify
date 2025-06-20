@@ -5,18 +5,19 @@ import {getInterviewCover} from "@/lib/utils";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import DisplayTechIcons from "@/components/DisplayTechIcons";
-import {getFeedbackByInterviewId} from "@/lib/actions/general.actions";
+import {getFeedbackByInterviewId, getInterviewById} from "@/lib/actions/general.actions";
 import {getCurrentUser} from "@/lib/actions/auth.actions";
 
 
 const InterviewCard = async ({ id, userId, role, type, techstack, companyUrl, createdAt} : InterviewCardProps) => {
     const currUser = await getCurrentUser();
-    const conpanyUrlHere = await getInterviewCover(companyUrl);
+
+    const interview = await getInterviewById(id!);
     const feedback = userId && id ? await getFeedbackByInterviewId({
         interviewId: id!,
         userId: currUser?.id,
     }) : null;
-
+    const conpanyUrlHere = interview?.coverImage;
 
 
     const normalizedType = /mix/gi.test(type) ? 'mixed' : type;

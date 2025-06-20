@@ -22,6 +22,7 @@ interface Interview {
   techstack: string[];
   createdAt: string;
   userId: string;
+  coverImage: string;
   type: string;
   finalized: boolean;
 }

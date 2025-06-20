@@ -168,12 +168,15 @@ const Agent = ({userName, userId, type, interviewId, questions} : AgentProps) =>
                     </div>
                     <h3> AI Interviewer</h3>
                 </div>
-                <div className={"card-border"}>
-                    <div className={"card-content"}>
-                        <Image src={"/user-avatar.png"} alt={"user avatar"} width={540} height={540} className={"rounded-full object-cover size-[120px]"} />
-                        <h3> {userName}</h3>
+                <div className="card-border">
+                    <div className="card-content flex flex-col items-center">
+                        <div className="rounded-full bg-blue-300 text-black flex capitalize items-center justify-center size-[120px] text-5xl font-bold">
+                            {userName?.[0]?.toUpperCase()}
+                        </div>
+                        <h3 className="mt-2">{userName}</h3>
                     </div>
                 </div>
+
             </div>
 
             {messages.length > 0 && (
