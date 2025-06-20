@@ -7,6 +7,7 @@ const ONE_WEEK = 60 * 60 * 24 * 7;
 
 export const signUp = async (params: SignUpParams) => {
     const {uid, name, email} = params;
+
     try {
         const userRecord = await db.collection('users').doc(uid).get();
 
@@ -16,6 +17,7 @@ export const signUp = async (params: SignUpParams) => {
                 message: 'User already exists'
             }
         }
+
         await db.collection('users').doc(uid).set({
             name,
             email,

@@ -11,6 +11,7 @@ Prepify is an AI-powered interview preparation platform designed to help users p
 - [Contributing](#contributing)
 - [License](#license)
 
+
 ## Overview
 Prepify helps users prepare for job interviews by providing a platform to practice interview scenarios. The application uses AI to generate interview questions and provides feedback to help users improve their interview skills.
 ## Features
